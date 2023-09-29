@@ -88,34 +88,39 @@ mod tests {
     use super::*;
 
     #[test]
-    fn new_112() {
-        let basic = BasicToken::new("client_id", "client_secret", BasicTokenLength::Basic112);
+    fn new_makes_112() {
+        let basic = BasicToken::new(
+            BasicToken::CLIENT_ID,
+            BasicToken::CLIENT_SECRET,
+            BasicTokenLength::Basic112,
+        );
 
         assert_eq!(basic.0.len(), 112);
     }
 
     #[test]
-    fn new_156() {
+    fn new_makes_156() {
         let basic = BasicToken::new("client_id", "client_secret", BasicTokenLength::Basic156);
 
         assert_eq!(basic.0.len(), 156);
     }
 
     #[test]
-    fn test_unique() {
+    fn default_is_unique() {
         let basic = BasicToken::default();
         let basic2 = BasicToken::default();
+
+        assert_ne!(basic, basic2);
     }
 
     #[test]
-    fn test_default() {
+    fn default_is_112() {
         let basic = BasicToken::default();
-
-        assert_eq!(basic.0.len(), 112)
+        assert_eq!(basic.0.len(), 112);
     }
 
     #[test]
-    fn test_clone() {
+    fn clones_are_equal() {
         let basic = BasicToken::default();
         let basic2 = basic.clone();
 
@@ -123,15 +128,13 @@ mod tests {
     }
 
     #[test]
-    fn test_debug() {
-        let basic = BasicToken::from("Yinkies");
+    fn debug_includes_token() {
+        let tokens = vec!["Yinkies", "Foo", "Bar"];
 
-        assert_eq!(format!("{basic:?}"), format!("BasicToken(\"Yinkies\")"))
-    }
-
-    #[test]
-    fn test_eq() {
-        assert_ne!(BasicToken::default(), BasicToken::default());
+        for token in tokens {
+            let basic = BasicToken::from(token);
+            assert_eq!(format!("{basic:?}"), format!("BasicToken(\"{basic}\")"))
+        }
     }
 
     #[test]
@@ -156,5 +159,42 @@ mod tests {
     fn test_into_string() {
         let basic: String = BasicToken::from("Yinkies").into();
         assert_eq!(basic, "Yinkies");
+    }
+
+    #[test]
+    fn basic_length_try_from_usize_112() {
+        let basic = BasicTokenLength::try_from(112);
+
+        assert!(basic.is_ok());
+    }
+
+    #[test]
+    fn basic_length_try_from_usize_156() {
+        let basic = BasicTokenLength::try_from(156);
+
+        assert!(basic.is_ok());
+    }
+
+    #[test]
+    fn basic_length_try_from_usize_0() {
+        let basic = BasicTokenLength::try_from(0);
+
+        assert!(basic.is_err());
+    }
+
+    #[test]
+    fn basic_length_clone() {
+        let basic = BasicTokenLength::Basic112;
+        let basic2 = basic.clone();
+
+        assert_eq!(basic, basic2);
+    }
+
+    #[test]
+    fn basic_length_display() {
+        let basic = BasicTokenLength::Basic112;
+        let basic2 = format!("{basic:?}");
+
+        assert_eq!(basic2, "Basic112");
     }
 }
