@@ -52,5 +52,6 @@
     "svg.preview.autoOpen": true,
     "errorLens.delay": 1000,
     "errorLens.enabledDiagnosticLevels": ["error", "warning"],
-    "errorLens.enabled": false
+    "errorLens.enabled": false,
+    "conventionalCommits.scopes": ["cargo"]
 }

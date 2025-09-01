@@ -1,10 +1,13 @@
-[package]
-name = "ifunny-auth"
-version = "0.1.0"
-edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[workspace]
+members = ["crates/*"]
+resolver = "2"
 
-[dependencies]
-clap = { version = "4.4.4", features = ["derive"] }
-ifunny-basic = { path = "ifunny-basic" }
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+repository = "https://github.com/Open-iFunny/ifunny-auth.git"
+
+[workspace.dependencies]
+ifunny-basic = { path = "./crates/ifunny-basic" }

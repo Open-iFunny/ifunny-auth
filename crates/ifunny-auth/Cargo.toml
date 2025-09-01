@@ -1,0 +1,9 @@
+[package]
+name = "ifunny-auth"
+version = "0.1.0"
+edition = "2021"
+repository.workspace = true
+
+[dependencies]
+clap = { version = "4.5.46", features = ["derive"] }
+ifunny-basic.workspace = true
